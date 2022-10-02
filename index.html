@@ -1,0 +1,81 @@
+<html>
+<head>
+<title>Hex Calculator</title>
+<meta charset="utf-8">
+<style>
+@font-face { font-family: "unifont"; src: url("./unifont.woff") format('woff'); }
+         body, input, option, select { 
+         	color: #d9d9d9; background-color: #000000; font-family: "unifont", "Lucida Console", monospace, Monaco; font-size: 16px; line-height: 1.0;
+         }
+         h1 {
+         	font-size: 32px;
+         }
+         logp {
+         	line-height: 1.0;
+         	display: block;
+         }
+         a { color: #aadadb; text-decoration: none; }
+         y { color: #a3f6c1; }
+         o { color: #c1a3f6; }
+</style>
+</head>
+<body>
+<h1>Hex Calc</h1>
+<table>
+	<tr>
+		<td>Input 1</td>
+		<td>Op</td>
+		<td>Input 2</td>
+		<td><y>Hex</y></td>
+		<td><o>Dec</o></td>
+	</tr>
+	<tr>
+		<td><input type=text id="input1" onchange="parseInput()"></td>
+		<td><select name="oper" id="oper" onchange="parseInput()">
+             <option value="+">+</option>
+             <option value="-">-</option>
+             <option value="*">*</option>
+             <option value="/">/</option>
+           </select></td>
+		<td><input type=text id="input2" onchange="parseInput()"></td>
+		<td><y><p id="resHex"></p></y></td>
+		<td><o><p id="resDec"></p></o></td>
+	</tr>
+</table>
+
+<script>
+function parseInput() {
+    var inVal1 = document.getElementById("input1").value;
+    var inVal2 = document.getElementById("input2").value;
+    var operVal = document.getElementById("oper").value;
+    inVal1 = parseInt(inVal1, 16);
+    inVal2 = parseInt(inVal2, 16);
+    if ( !isNaN(inVal1) && !isNaN(inVal2) ) {
+        if (operVal == "+") {
+        	var result = inVal1 + inVal2
+        } else if (operVal == "-") {
+        	var result = inVal1 - inVal2
+        } else if (operVal == "*") {
+        	var result = inVal1 * inVal2
+        } else if (operVal == "/") {
+        	var result = inVal1 / inVal2
+        } 
+        	var outhex = "0x" + result.toString(16)
+        	var outdec = result.toString(10)
+            document.getElementById("resHex").innerHTML = outhex;
+            document.getElementById("resDec").innerHTML = outdec;
+            var outforlog = "0x" + inVal1.toString(16) + " " + operVal + " 0x" + inVal2.toString(16) + " = " + outhex + " (" + outdec + ")\n" 
+            const node = document.createElement("logp");
+            var textnode = document.createTextNode(outforlog);
+            node.appendChild(textnode);
+            document.getElementById("outlog").appendChild(node);
+    }
+}
+</script>
+
+<h3>History</h3>
+<div id="outlog">
+</div>
+<!-- 20220506 @netspooky https://n0.lol -->
+</body></html>
+
